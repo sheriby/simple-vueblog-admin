@@ -39,7 +39,7 @@
   import {Editor} from '@toast-ui/vue-editor'
 
   import {getTypes} from '@/network/type'
-  import {postBlog} from '@/network/blog'
+  import {postBlog, getBlogInfo} from '@/network/blog'
   import {getTags} from '@/network/tag'
 
   export default {
@@ -73,13 +73,27 @@
         })
         this.blog.tags = newtag
         postBlog(this.blog).then(res => {
-          console.log(res)
+          if (res.code === 200) {
+            // this.cleanFrom()
+            this.$message({
+              type: 'success',
+              message: '提交成功'
+            })
+            this.$router.push('/admin/blog')
+          }
         }).catch(err => {
           console.log(err)
         })
+      },
+      cleanFrom() {
+        this.blog = {
+          type: {}
+        }
+        this.$refs.editor.invoke('setMarkdown', '')
       }
     },
     created() {
+      
       getTypes().then(res => {
         this.types = res.data
       }).catch(err => {
@@ -91,7 +105,20 @@
       }).catch(err => {
         console.log(err)
       })
-    }
+      const blogid = this.$route.params.id 
+      if (blogid !== undefined) {
+        getBlogInfo(blogid).then(res => {
+          const newtags = []
+          res.data.tags.forEach(tag => {
+            newtags.push(tag.id)
+          })
+          res.data.tags = newtags
+          this.blog = res.data
+
+          this.$refs.editor.invoke('setMarkdown', res.data.content)
+        })
+      }
+    },
   }
 </script>
 
