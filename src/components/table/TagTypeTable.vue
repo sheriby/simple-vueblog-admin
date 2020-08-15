@@ -99,6 +99,8 @@
             row.name = this.editData.name
             row.description = this.editData.description
 
+            this.$emit('edit', row)
+
             this.$message({
               type: 'success',
               message: '修改成功'

@@ -8,7 +8,7 @@
     <div class="user">
       <img src="~@/assets/image/head.jpg">
       <span class="name">Hony Sher</span>
-      <el-button type="text">注销</el-button>
+      <el-button type="text" @click="logout">注销</el-button>
     </div>
 
   </div>
@@ -16,7 +16,13 @@
 
 <script>
   export default {
-    name: "NavBar"
+    name: "NavBar",
+    methods: {
+      logout() {
+        localStorage.removeItem('token')
+        this.$router.push('/login')
+      }
+    }
   }
 </script>
 
@@ -46,7 +52,6 @@
     }
 
     div.user {
-      display: inline-block;
       float: right;
 
       img {

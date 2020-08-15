@@ -13,3 +13,11 @@ export function postType(type) {
     data: type,
   });
 }
+
+export function putType(type) {
+  return request({
+    url: "/type",
+    method: "put",
+    data: type,
+  });
+}
