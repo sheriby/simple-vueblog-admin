@@ -5,3 +5,11 @@ export function getTags() {
     url: '/tag/tags'
   })
 }
+
+export function postTag(tag) {
+  return request({
+    url: '/tag',
+    method: 'post',
+    data: tag
+  })
+}
